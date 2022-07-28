@@ -1,0 +1,9 @@
+---
+# tasks file for jenkins/roles
+- name: install jenkins
+  hosts: jenkins
+  become: true
+  gather_facts: no
+  
+  roles:
+    - jenkins-role-1

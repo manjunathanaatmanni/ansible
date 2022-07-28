@@ -1,0 +1,47 @@
+---
+# tasks file for jenkins-role-1
+
+  - name: install java
+    yum:
+      name: java-11-openjdk
+      state: installed
+
+  - name: install packages
+    yum:
+      name: "{{item}}"
+      state: installed
+    with_items:
+    - wget
+    - tree
+    - zip
+    - git
+
+  - name: downloading jenkins repo
+    get_url:
+      url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+      dest: /etc/yum.repos.d/jenkins.repo
+
+  - name: adding jenkins key
+    rpm_key:
+      state: present
+      key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+  - name: yum install jenkins
+    yum:
+      name: jenkins
+      state: installed
+
+  - name: Start Jenkins
+    service:
+      name: jenkins
+      state: started
+
+  - name: enable jenkins
+    systemd:
+     name: jenkins
+     enabled: true
+  
+
+ 
+    
+
